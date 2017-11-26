@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Stock id textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/stock_id"
+            android:text="@string/stock_id"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20"/>
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_stock_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/item_stock_id"
+            android:inputType="number"
+            android:padding="16dp" />
+
+
+    </LinearLayout>
+    <!-- supplier textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/supplier"
+            android:text="@string/supplier"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20"/>
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_supplier_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/supplier_name"
+            android:inputType="textCapWords"
+            android:padding="16dp" />
+
+    </LinearLayout>
+
+    <!-- description textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/details"
+            android:text="@string/description"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20" />
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/type_details"
+            android:inputType="textMultiLine"
+            android:padding="16dp" />
+
+
+    </LinearLayout>
+    <!-- quantity textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/quantity"
+            android:text="@string/quantity"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20"/>
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_quantity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/item_quantity"
+            android:inputType="number"
+            android:padding="16dp" />
+
+
+    </LinearLayout>
+    <!-- cost textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/cost"
+            android:text="@string/item_cost"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20"/>
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_cost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/type_cost"
+            android:inputType="number"
+            android:padding="16dp" />
+
+
+    </LinearLayout>
+    <!-- price textView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--label-->
+        <TextView
+            android:id="@+id/price"
+            android:text="@string/Price"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#1B5E20"/>
+
+        <!-- input fields -->
+        <EditText
+            android:id="@+id/edit_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="@string/type_price"
+            android:inputType="number"
+            android:padding="16dp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.luis.inventoryapp.MainActivity">
+
+    <TextView
+        android:id="@+id/text_view_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:padding="@dimen/activity_margin" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:clickable="true"
+        android:focusable="auto"
+        app:backgroundTint="@android:color/holo_green_dark"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
+</RelativeLayout>
