@@ -1,11 +1,16 @@
 package com.example.luis.inventoryapp;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
 
 /**
  * Created by Luis on 11/21/2017.
@@ -46,6 +51,44 @@ public class ItemEditorActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Get user input from editor and save new ring into database.
+     */
+    private void insertRing(){
+
+        String stockNumber = mStockIdEditText.getText().toString().trim();
+        int stockId = Integer.parseInt(stockNumber);
+        String supplierName = mSupplierNameEditText.getText().toString().trim();
+        String details = mDetailsEditText.getText().toString().trim();
+        String quantityNumber = mQuantityEditText.getText().toString().trim();
+        int quantity = Integer.parseInt(quantityNumber);
+        String costNumber = mCostEditText.getText().toString().trim();
+        int cost = Integer.parseInt(costNumber);
+        String priceNumber = mPriceEditText.getText().toString().trim();
+        int price = Integer.parseInt(priceNumber);
+
+        ContentValues values = new ContentValues();
+        values.put(InventoryEntry.COLUMN_STOCK_ID, stockId);
+        values.put(InventoryEntry.COLUMN_SUPPLIER, supplierName);
+        values.put(InventoryEntry.COLUMN_DETAILS, details);
+        values.put(InventoryEntry.COLUMN_QUANTITY, quantity);
+        values.put(InventoryEntry.COLUMN_COST, cost);
+        values.put(InventoryEntry.COLUMN_PRICE, price);
+
+        // Insert a new ring into the provider, returning the content uri for the new ring
+        Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+
+        //Show a toast message depending on whether or not the insertion was successful
+        if (newUri == null){
+            Toast.makeText(this, getString(R.string.editor_insert_ring_failed),
+                Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, getString(R.string.editor_insert_ring_successful),
+                    Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -59,7 +102,10 @@ public class ItemEditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Do nothing for now
+                // Insert ring in the database
+                insertRing();
+                // Exit activity
+                finish();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

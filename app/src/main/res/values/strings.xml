@@ -51,4 +51,8 @@
 
     <!-- hint for price -->
     <string name="type_price">type Price</string>
+    <!-- toast message in editor when new ring has failed to be inserted[CHAR LIMIT=NONE]-->
+    <string name="editor_insert_ring_failed">Error with saving ring</string>
+    <!-- TOAST message in editor when new ring has been successfully inserted[CHAR LIMIT=NONE]-->
+    <string name="editor_insert_ring_successful">Ring saved</string>
 </resources>
