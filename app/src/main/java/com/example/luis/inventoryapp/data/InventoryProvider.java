@@ -7,8 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -123,12 +121,22 @@ public class InventoryProvider extends ContentProvider {
         // Return the cursor
         return cursor;
     }
-    @Nullable
+    /**
+     * Returns the MIME type of data for the content URI
+     */
     @Override
-    public String getType(@NonNull Uri uri) {
-        return null;
-    }
+    public String getType(Uri uri) {
 
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case RINGS:
+                return InventoryEntry.CONTENT_LIST_TYPE;
+            case RING_ID:
+                return InventoryEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
+    }
     /**
      * Insert new data into the provider with the given ContentValues.
      */
@@ -148,6 +156,59 @@ public class InventoryProvider extends ContentProvider {
      * for that specific row in the database.
      */
     private Uri insertRing(Uri uri, ContentValues values){
+
+        // check that the stock value is not 0.
+        int stock = values.getAsInteger(InventoryEntry.COLUMN_STOCK_ID);
+        if (stock == 0) {
+            throw new IllegalArgumentException("Ring requires a stock id");
+        }
+
+
+        // If the {@link InventoryEntry#COLUMN_SUPPLIER} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_SUPPLIER)) {
+            String supplier = values.getAsString(InventoryEntry.COLUMN_SUPPLIER);
+            if (supplier == null) {
+                throw new IllegalArgumentException("Ring requires a supplier name");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_DETAILS} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_DETAILS)) {
+            String detail = values.getAsString(InventoryEntry.COLUMN_DETAILS);
+            if (detail == null) {
+                throw new IllegalArgumentException("Ring requires details");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_QUANTITY} key is present,
+        // check that the stock value is not 0.
+        if (values.containsKey(InventoryEntry.COLUMN_QUANTITY)) {
+            int quantity = values.getAsInteger(InventoryEntry.COLUMN_QUANTITY);
+            if (quantity == 0) {
+                throw new IllegalArgumentException("Ring requires quantity");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_COST} key is present,
+        // check that the stock value is not 0.
+        if (values.containsKey(InventoryEntry.COLUMN_COST)) {
+            int cost = values.getAsInteger(InventoryEntry.COLUMN_COST);
+            if (cost == 0) {
+                throw new IllegalArgumentException("Ring requires cost");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_PRICE} key is present,
+        // check that the stock value is not 0.
+        if (values.containsKey(InventoryEntry.COLUMN_PRICE)) {
+            int price = values.getAsInteger(InventoryEntry.COLUMN_PRICE);
+            if (price == 0) {
+                throw new IllegalArgumentException("Ring requires price");
+            }
+        }
+
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -158,16 +219,148 @@ public class InventoryProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        // Notify all listeners that the data has changed for the ring content URI
+        getContext().getContentResolver().notifyChange(uri, null);
+        
         // Return the new URI with the id of the newly inserted row appended at the end
         return ContentUris.withAppendedId(uri, id);
     }
-    @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
-    }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(Uri uri, ContentValues contentValues, String selection,
+                      String[] selectionArgs) {
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case RINGS:
+                return updateRing(uri, contentValues, selection, selectionArgs);
+            case RING_ID:
+                // For the RING_ID code, extract out the ID from the URI,
+                // so we know which row to update. Selection will be "_id=?" and selection
+                // arguments will be a String array containing the actual ID.
+                selection = InventoryEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updateRing(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
+    /**
+     * Update engagement_ring in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more rings).
+     * Return the number of rows that were successfully updated.
+     */
+    private int updateRing(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        // If the {@link InventoryEntry#COLUMN_STOCK_ID} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_STOCK_ID)) {
+            String stock = values.getAsString(InventoryEntry.COLUMN_STOCK_ID);
+            if (stock == null) {
+                throw new IllegalArgumentException("Ring requires a stock id");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_SUPPLIER} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_SUPPLIER)) {
+            String supplier = values.getAsString(InventoryEntry.COLUMN_SUPPLIER);
+            if (supplier == null) {
+                throw new IllegalArgumentException("Ring requires a supplier name");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_DETAILS} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_DETAILS)) {
+            String detail = values.getAsString(InventoryEntry.COLUMN_DETAILS);
+            if (detail == null) {
+                throw new IllegalArgumentException("Ring requires details");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_QUANTITY} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_QUANTITY)) {
+            String quantity = values.getAsString(InventoryEntry.COLUMN_QUANTITY);
+            if (quantity == null) {
+                throw new IllegalArgumentException("Ring requires quantity");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_COST} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_COST)) {
+            String cost = values.getAsString(InventoryEntry.COLUMN_COST);
+            if (cost == null) {
+                throw new IllegalArgumentException("Ring requires cost");
+            }
+        }
+
+        // If the {@link InventoryEntry#COLUMN_PRICE} key is present,
+        // check that the stock value is not null.
+        if (values.containsKey(InventoryEntry.COLUMN_PRICE)) {
+            String price = values.getAsString(InventoryEntry.COLUMN_PRICE);
+            if (price == null) {
+                throw new IllegalArgumentException("Ring requires price");
+            }
+        }
+
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, get writable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(InventoryEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Returns the number of database rows affected by the update statement
+        return rowsUpdated;
+    }
+
+    /**
+     * Delete the data at the given selection and selection arguments.
+     */
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        // Track the number of rows that were deleted
+        int rowsDeleted;
+        // Get writable database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case RINGS:
+                // Delete all rows that match the selection and selection args
+                // For  case RINGS:
+                rowsDeleted = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case RING_ID:
+                // Delete a single row given by the ID in the URI
+                selection = InventoryEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows deleted
+        return rowsDeleted;
+
+    }
+
+
 }
