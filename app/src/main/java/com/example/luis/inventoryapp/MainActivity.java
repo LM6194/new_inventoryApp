@@ -1,6 +1,7 @@
 package com.example.luis.inventoryapp;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -10,14 +11,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int RING_LOADER = 0;
 
@@ -46,9 +51,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCursorAdapter = new InventoryCursorAdapter(this, null);
         ringListView.setAdapter(mCursorAdapter);
 
+        //Setup item click listener.
+        ringListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(MainActivity.this, ItemEditorActivity.class);
+
+                // Form the content URI that represents the specific ring that was clicked on,
+                // by appending th "id" (passed as input to this method) onto the
+                // {@link InventoryEntry#CONTENT_URI}.
+                // fOR EXAMPLE,the URI would be "content://com.example.luis.InventoryApp/engagement_ring/3"
+                // if the ring  with ID 2 was click on.
+                Uri currentRingUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
+
+                //set the URI on the data field of the intent
+                intent.setData(currentRingUri);
+                // Launch the {@link EditorActivity} to display the data for the current ring
+                startActivity(intent);
+            }
+        });
+
         // kick off the loader
         getLoaderManager().initLoader(RING_LOADER, null,this);
     }
+
+    /**
+     * Helper method to insert hardcoded ring data into the database.
+     * For debugging purposes only.
+     */
     private void insertRing(){
 
         // Create a ContentValues object, where column names are the keys
@@ -64,6 +95,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
 
     }
+    /**
+     * Helper method to delete all pets in the database.
+     */
+    private void deleteAllRings() {
+        int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
+        Log.v("MainActivity", rowsDeleted + " rows deleted from ring database");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -82,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllRings();
                 return true;
         }
         return super.onOptionsItemSelected(item);

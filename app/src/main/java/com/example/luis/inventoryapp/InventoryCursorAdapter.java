@@ -59,8 +59,8 @@ public class InventoryCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // find fields to populate in inflate template
-        TextView textViewSupplier = (TextView)view.findViewById(R.id.supplier);
-        TextView textViewDetails = (TextView)view.findViewById(R.id.details);
+        TextView textViewSupplier = (TextView)view.findViewById(R.id.tvSupplier);
+        TextView textViewDetails = (TextView)view.findViewById(R.id.tvDetails);
 
         //Find the columns of rings attributes that we're  interested in
         int supplierColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_SUPPLIER);

@@ -51,8 +51,47 @@
 
     <!-- hint for price -->
     <string name="type_price">type Price</string>
-    <!-- toast message in editor when new ring has failed to be inserted[CHAR LIMIT=NONE]-->
+
+    <!-- Toast message in editor when ring has failed to be inserted[CHAR LIMIT=NONE]-->
     <string name="editor_insert_ring_failed">Error with saving ring</string>
+
     <!-- TOAST message in editor when new ring has been successfully inserted[CHAR LIMIT=NONE]-->
     <string name="editor_insert_ring_successful">Ring saved</string>
+
+    <!-- Title for the activity to add a new ring [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_ring">Add a Ring</string>
+
+    <!-- title for the activity to add anew ring[CHAR LIMIT=20] -->
+    <string name="editor_activity_edit_ring">Edit Ring</string>
+
+    <!-- Toast message in editor when current ring was successfully updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_ring_successful">Pet updated</string>
+
+    <!-- Toast message in editor when current ring has failed to be updated [CHAR LIMIT=NONE] -->
+    <string name="editor_update_ring_failed">Error with updating pet</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_ring_successful">Pet deleted</string>
+
+    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_ring_failed">Error with deleting pet</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this pet?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
 </resources>
