@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements
         values.put(InventoryEntry.COLUMN_PRICE, 11250);
 
         // Receive the new content uri that will allow us to access data in the future
-        Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+        //Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
 
     }
     /**
