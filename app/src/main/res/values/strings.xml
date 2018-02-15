@@ -65,10 +65,10 @@
     <string name="editor_activity_edit_ring">Edit Ring</string>
 
     <!-- Toast message in editor when current ring was successfully updated [CHAR LIMIT=NONE] -->
-    <string name="editor_update_ring_successful">Pet updated</string>
+    <string name="editor_update_ring_successful">ring updated</string>
 
     <!-- Toast message in editor when current ring has failed to be updated [CHAR LIMIT=NONE] -->
-    <string name="editor_update_ring_failed">Error with updating pet</string>
+    <string name="editor_update_ring_failed">Error with updating ring</string>
 
     <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
@@ -76,22 +76,22 @@
     <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
     <string name="discard">Discard</string>
 
-    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to keep editing the current ring [CHAR LIMIT=20] -->
     <string name="keep_editing">Keep Editing</string>
 
-    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_ring_successful">Pet deleted</string>
+    <!-- Toast message in editor when current ring was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_ring_successful">ring deleted</string>
 
-    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
-    <string name="editor_delete_ring_failed">Error with deleting pet</string>
+    <!-- Toast message in editor when current ring has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_ring_failed">Error with deleting ring</string>
 
-    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
-    <string name="delete_dialog_msg">Delete this pet?</string>
+    <!-- Dialog message to ask the user to confirm deleting the current ring [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this ring?</string>
 
-    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to confirm deleting the current ring [CHAR LIMIT=20] -->
     <string name="delete">Delete</string>
 
-    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to cancel deletion of the current ring [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
 </resources>

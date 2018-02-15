@@ -146,14 +146,28 @@ public class ItemEditorActivity extends AppCompatActivity implements
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String stockNumber = mStockIdEditText.getText().toString().trim();
-        int stockId = Integer.parseInt(stockNumber);
+
         String supplierName = mSupplierNameEditText.getText().toString().trim();
         String details = mDetailsEditText.getText().toString().trim();
         String quantityNumber = mQuantityEditText.getText().toString().trim();
-        int quantity = Integer.parseInt(quantityNumber);
         String costNumber = mCostEditText.getText().toString().trim();
-        int cost = Integer.parseInt(costNumber);
         String priceNumber = mPriceEditText.getText().toString().trim();
+
+
+        // Check if this is supposed to be a new ring
+        // and check if all the fields in the editor are blank
+        if (mCurrentRingUri == null &&
+                TextUtils.isEmpty(stockNumber) && TextUtils.isEmpty(supplierName) &&
+                TextUtils.isEmpty(details) && TextUtils.isEmpty(quantityNumber) &&
+                TextUtils.isEmpty(costNumber) && TextUtils.isEmpty(priceNumber)) {
+            // Since no fields were modified, we can return early without creating a new ring.
+            // No need to create ContentValues and no need to do any ContentProvider operations.
+            return;
+        }
+
+        int stockId = Integer.parseInt(stockNumber);
+        int quantity = Integer.parseInt(quantityNumber);
+        int cost = Integer.parseInt(costNumber);
         int price = Integer.parseInt(priceNumber);
 
         // Create a ContentValues object where column names are the keys.
@@ -348,12 +362,12 @@ public class ItemEditorActivity extends AppCompatActivity implements
             int price = cursor.getInt(priceColumnIndex);
 
             //Update the views on the screen with the values from the database
-            mStockIdEditText.setText(stockId);
+            mStockIdEditText.setText(String.valueOf(stockId));
             mSupplierNameEditText.setText(supplier);
             mDetailsEditText.setText(details);
-            mQuantityEditText.setText(quantity);
-            mCostEditText.setText(cost);
-            mPriceEditText.setText(price);
+            mQuantityEditText.setText(String.valueOf(quantity));
+            mCostEditText.setText(String.valueOf(cost));
+            mPriceEditText.setText(String.valueOf(price));
 
         }
     }
@@ -406,13 +420,13 @@ public class ItemEditorActivity extends AppCompatActivity implements
      */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                // User clicked the "Delete" button, so delete the pet.
-               deletePet();
+               deleteRing();
            }});
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -432,7 +446,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
     /**
      * Perform the deletion of the pet in the database.
      */
-    private void deletePet() {
+    private void deleteRing() {
         // Only perform the delete if this is an existing pet.
         if (mCurrentRingUri != null) {
             // Call the ContentResolver to delete the pet at the given content URI.
