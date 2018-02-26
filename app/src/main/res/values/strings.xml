@@ -94,4 +94,10 @@
     <!-- Dialog button text for the option to cancel deletion of the current ring [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
+    <!-- Dialog button text for the option to keep filling the fields-->
+    <string name="categories_dialog_msg">All Categories must be complete Want to leave?</string>
+
+    <string name="re_order_button">Order</string>
+
+    <string name="sold_button">Sold</string>
 </resources>

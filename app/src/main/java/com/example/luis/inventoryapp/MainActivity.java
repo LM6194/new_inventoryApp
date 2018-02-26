@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements
                 Intent intent = new Intent(MainActivity.this, ItemEditorActivity.class);
 
                 // Form the content URI that represents the specific ring that was clicked on,
-                // by appending th "id" (passed as input to this method) onto the
+                // by appending the "id" (passed as input to this method) onto the
                 // {@link InventoryEntry#CONTENT_URI}.
                 // fOR EXAMPLE,the URI would be "content://com.example.luis.InventoryApp/engagement_ring/3"
                 // if the ring  with ID 2 was click on.

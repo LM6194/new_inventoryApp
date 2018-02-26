@@ -32,9 +32,9 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         // Create a String that contains the SQL statement to Create the engagement_ring TABLE.
         String SQL_CREATE_ENGAGEMENT_RING_TABLE = "CREATE TABLE " + InventoryEntry.TABLE_NAME + "("
                 +InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +InventoryEntry.COLUMN_STOCK_ID + " TEXT NOT NULL, "
-                +InventoryEntry.COLUMN_SUPPLIER + " TEXT NOT NULL, "
-                +InventoryEntry.COLUMN_DETAILS + " TEXT NOT NULL, "
+                +InventoryEntry.COLUMN_STOCK_ID + " INTEGER NOT NULL, "
+                +InventoryEntry.COLUMN_SUPPLIER + " TEXT, "
+                +InventoryEntry.COLUMN_DETAILS + " TEXT, "
                 +InventoryEntry.COLUMN_QUANTITY + " INTEGER NOT NULL, "
                 +InventoryEntry.COLUMN_COST + " INTEGER NOT NULL, "
                 +InventoryEntry.COLUMN_PRICE + " INTEGER NOT NULL);";

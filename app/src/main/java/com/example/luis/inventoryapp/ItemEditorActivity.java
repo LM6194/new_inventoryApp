@@ -14,14 +14,21 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
+
+
+
+import static java.lang.String.*;
 
 /**
  * Created by Luis on 11/21/2017.
@@ -115,6 +122,27 @@ public class ItemEditorActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(RING_LOADER, null, this);
         }
 
+        Button sold = findViewById(R.id.sold_button);
+        sold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityNumber = mQuantityEditText.getText().toString().trim();
+                int quantityField = Integer.parseInt(quantityNumber);
+                if (quantityField > 0){
+                    quantityField = quantityField - 1;
+                    EditText textElement = findViewById(R.id.edit_quantity);
+                    Log.i("Luis", "value of quantityField is: " +
+                                    quantityField);
+                    textElement.setText(quantityField);
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Out Stock Please Re Order", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
 
 
 
@@ -146,7 +174,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String stockNumber = mStockIdEditText.getText().toString().trim();
-
         String supplierName = mSupplierNameEditText.getText().toString().trim();
         String details = mDetailsEditText.getText().toString().trim();
         String quantityNumber = mQuantityEditText.getText().toString().trim();
@@ -163,32 +190,37 @@ public class ItemEditorActivity extends AppCompatActivity implements
             // Since no fields were modified, we can return early without creating a new ring.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
+
+        }else if (TextUtils.isEmpty(stockNumber) || TextUtils.isEmpty(supplierName) ||
+                TextUtils.isEmpty(details) || TextUtils.isEmpty(quantityNumber) ||
+                TextUtils.isEmpty(costNumber) || TextUtils.isEmpty(priceNumber)){
+            Log.i("Luis", "I am into the else if statement");
+            // Otherwise if there are unsaved changes, setup a dialog to warn the user.
+            // Create a click listener to handle the user confirming that changes should be discarded.
+            showUnFinishForm();
+            Log.i("luis 1", "The showUnFinishForm method should work");
         }
 
-        int stockId = Integer.parseInt(stockNumber);
+
+
+        int stock = Integer.parseInt(stockNumber);
+
         int quantity = Integer.parseInt(quantityNumber);
+
         int cost = Integer.parseInt(costNumber);
+
         int price = Integer.parseInt(priceNumber);
+
 
         // Create a ContentValues object where column names are the keys.
         ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_STOCK_ID, stockId);
+        values.put(InventoryEntry.COLUMN_STOCK_ID, stock);
         values.put(InventoryEntry.COLUMN_SUPPLIER, supplierName);
         values.put(InventoryEntry.COLUMN_DETAILS, details);
         values.put(InventoryEntry.COLUMN_QUANTITY, quantity);
         values.put(InventoryEntry.COLUMN_COST, cost);
         values.put(InventoryEntry.COLUMN_PRICE, price);
 
-        // Check if this is supposed to be a new ring
-        // and check if all the fields in the editor are blank
-        if (mCurrentRingUri == null &&
-                TextUtils.isEmpty(stockNumber) && TextUtils.isEmpty(supplierName) &&
-                TextUtils.isEmpty(details) && TextUtils.isEmpty(quantityNumber) &&
-                TextUtils.isEmpty(costNumber) && TextUtils.isEmpty(priceNumber)) {
-            // Since no fields were modified, ew can return early without creating a new ring
-            // No need to create ContentValues and no need to do any ContentProvider Operations.
-            return;
-        }
 
 
         // Determine if this is a new or existing ring by checking if MCurrentRingUri is null or not
@@ -362,12 +394,12 @@ public class ItemEditorActivity extends AppCompatActivity implements
             int price = cursor.getInt(priceColumnIndex);
 
             //Update the views on the screen with the values from the database
-            mStockIdEditText.setText(String.valueOf(stockId));
+            mStockIdEditText.setText(valueOf(stockId));
             mSupplierNameEditText.setText(supplier);
             mDetailsEditText.setText(details);
-            mQuantityEditText.setText(String.valueOf(quantity));
-            mCostEditText.setText(String.valueOf(cost));
-            mPriceEditText.setText(String.valueOf(price));
+            mQuantityEditText.setText(valueOf(quantity));
+            mCostEditText.setText(valueOf(cost));
+            mPriceEditText.setText(valueOf(price));
 
         }
     }
@@ -402,7 +434,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
         builder.setNegativeButton(R.string.keep_editing, new OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the ring.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -416,7 +448,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
     }
 
     /**
-     * Prompt the user to confirm that they want to delete this pet.
+     * Prompt the user to confirm that they want to delete this ring.
      */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
@@ -425,13 +457,13 @@ public class ItemEditorActivity extends AppCompatActivity implements
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
-               // User clicked the "Delete" button, so delete the pet.
+               // User clicked the "Delete" button, so delete the ring.
                deleteRing();
            }});
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the ring.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -444,14 +476,14 @@ public class ItemEditorActivity extends AppCompatActivity implements
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the ring in the database.
      */
     private void deleteRing() {
-        // Only perform the delete if this is an existing pet.
+        // Only perform the delete if this is an existing ring.
         if (mCurrentRingUri != null) {
-            // Call the ContentResolver to delete the pet at the given content URI.
-            // Pass in null for the selection and selection args because the mCurrentPetUri
-            // content URI already identifies the pet that we want.
+            // Call the ContentResolver to delete the ring at the given content URI.
+            // Pass in null for the selection and selection args because the mCurrentRingUri
+            // content URI already identifies the ring that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentRingUri, null, null);
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
@@ -464,9 +496,29 @@ public class ItemEditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
-
         // Close the activity
         finish();
+    }
+
+    /**
+     * Prompt the  user that not all the fields are complete
+     */
+    private void showUnFinishForm() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Cannot save without filing out the whole form")
+                .setMessage("Keep editing")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+
     }
 
 }
