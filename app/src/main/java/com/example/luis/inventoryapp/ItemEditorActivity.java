@@ -128,22 +128,34 @@ public class ItemEditorActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 String quantityNumber = mQuantityEditText.getText().toString().trim();
                 int quantityField = Integer.parseInt(quantityNumber);
-                if (quantityField > 0){
+                if (quantityField > 0) {
                     quantityField = quantityField - 1;
                     EditText textElement = findViewById(R.id.edit_quantity);
                     Log.i("Luis", "value of quantityField is: " +
-                                    quantityField);
-                    textElement.setText(quantityField);
+                            quantityField);
+                    textElement.setText(String.valueOf(quantityField));
 
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"Out Stock Please Re Order", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Out Stock Please Re Order", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-
-
+        Button reOrder = findViewById(R.id.re_order_button);
+        final String textOrder = "Supplier Name: " + "\n" +
+                "Item details: " + "\n" + "quantity: ";
+        reOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Re Order Jewelery item");
+                intent.putExtra(Intent.EXTRA_TEXT, textOrder);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
 
 
         // Find all relevant views that we will need to read user input from
@@ -163,8 +175,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mCostEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
-
-
     }
 
     /**
