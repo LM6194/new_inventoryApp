@@ -21,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -181,6 +180,12 @@ public class ItemEditorActivity extends AppCompatActivity implements
      * Get user input from editor and save  ring into database.
      */
     private void saveRing() {
+
+        int stock = -1;
+        int quantity = -1;
+        int cost = -1;
+        int price = -1;
+
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String stockNumber = mStockIdEditText.getText().toString().trim();
@@ -200,10 +205,10 @@ public class ItemEditorActivity extends AppCompatActivity implements
             // Since no fields were modified, we can return early without creating a new ring.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
+        }
 
-        }else if (TextUtils.isEmpty(stockNumber) || TextUtils.isEmpty(supplierName) ||
-                TextUtils.isEmpty(details) || TextUtils.isEmpty(quantityNumber) ||
-                TextUtils.isEmpty(costNumber) || TextUtils.isEmpty(priceNumber)){
+        else if (stockNumber.equals("")  || quantityNumber.equals("") ||
+                costNumber.equals("") || priceNumber.equals("")){
             Log.i("Luis", "I am into the else if statement");
             // Otherwise if there are unsaved changes, setup a dialog to warn the user.
             // Create a click listener to handle the user confirming that changes should be discarded.
@@ -212,14 +217,38 @@ public class ItemEditorActivity extends AppCompatActivity implements
         }
 
 
+        if(stockNumber.equals("")) {
+            showUnFinishForm();
+        }
+        else {
+            stock = Integer.parseInt(stockNumber);
+        }
 
-        int stock = Integer.parseInt(stockNumber);
 
-        int quantity = Integer.parseInt(quantityNumber);
+        if (quantityNumber.equals("")){
+            showUnFinishForm();
+        }
+        else {
+            quantity = Integer.parseInt(quantityNumber);
+        }
 
-        int cost = Integer.parseInt(costNumber);
+        if (costNumber.equals("")){
+            showUnFinishForm();
+        }
+        else{
+            cost = Integer.parseInt(costNumber);
+        }
 
-        int price = Integer.parseInt(priceNumber);
+        if (priceNumber.equals("")){
+            showUnFinishForm();
+        }
+        else {
+            price = Integer.parseInt(priceNumber);
+        }
+
+
+
+
 
 
         // Create a ContentValues object where column names are the keys.
