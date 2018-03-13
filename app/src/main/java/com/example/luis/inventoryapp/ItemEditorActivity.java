@@ -209,16 +209,37 @@ public class ItemEditorActivity extends AppCompatActivity implements
 
         else if (stockNumber.equals("")  || quantityNumber.equals("") ||
                 costNumber.equals("") || priceNumber.equals("")){
-            Log.i("Luis", "I am into the else if statement");
+
             // Otherwise if there are unsaved changes, setup a dialog to warn the user.
             // Create a click listener to handle the user confirming that changes should be discarded.
-            showUnFinishForm();
-            Log.i("luis 1", "The showUnFinishForm method should work");
+            //showUnFinishForm();
+            OnClickListener discardButtonClickListener =
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                        }
+                    };
+
+            // Show dialog that there are unsaved changes
+            showUnFinishForm(discardButtonClickListener);
         }
 
 
         if(stockNumber.equals("")) {
-            showUnFinishForm();
+            //showUnFinishForm();
+            OnClickListener discardButtonClickListener =
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                        }
+                    };
+
+            // Show dialog that there are unsaved changes
+            showUnFinishForm(discardButtonClickListener);
         }
         else {
             stock = Integer.parseInt(stockNumber);
@@ -226,21 +247,54 @@ public class ItemEditorActivity extends AppCompatActivity implements
 
 
         if (quantityNumber.equals("")){
-            showUnFinishForm();
+            //showUnFinishForm();
+            OnClickListener discardButtonClickListener =
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                        }
+                    };
+
+            // Show dialog that there are unsaved changes
+            showUnFinishForm(discardButtonClickListener);
         }
         else {
             quantity = Integer.parseInt(quantityNumber);
         }
 
         if (costNumber.equals("")){
-            showUnFinishForm();
+            //showUnFinishForm();
+            OnClickListener discardButtonClickListener =
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                        }
+                    };
+
+            // Show dialog that there are unsaved changes
+            showUnFinishForm(discardButtonClickListener);
         }
         else{
             cost = Integer.parseInt(costNumber);
         }
 
         if (priceNumber.equals("")){
-            showUnFinishForm();
+            //showUnFinishForm();
+            OnClickListener discardButtonClickListener =
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                        }
+                    };
+
+            // Show dialog that there are unsaved changes
+            showUnFinishForm(discardButtonClickListener);
         }
         else {
             price = Integer.parseInt(priceNumber);
@@ -542,22 +596,26 @@ public class ItemEditorActivity extends AppCompatActivity implements
     /**
      * Prompt the  user that not all the fields are complete
      */
-    private void showUnFinishForm() {
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Cannot save without filing out the whole form")
-                .setMessage("Keep editing")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
+    private void showUnFinishForm(OnClickListener discardButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the ring.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
 
-                })
-                .setNegativeButton("No", null)
-                .show();
+        });
 
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 }
