@@ -16,7 +16,7 @@ public final class InventoryContract {
      * content authority is the package name for the app, which is guaranteed to be unique on the
      * device.
      */
-    public static final String CONTENT_AUTHORITY = "com.example.luis.inventoryapp";
+    public static final String CONTENT_AUTHORITY = "com.example.luis.inventoryApp";
     /**
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
      * the content provider.
@@ -24,8 +24,8 @@ public final class InventoryContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     /**
      * Possible path (appended to base content URI for possible URI's)
-     * For instance, content://com.example.luis.inventoryapp/engagement_ring/ is a valid path for
-     * looking at ring data. content://com.example.luis.inventoryapp/staff/ will fail,
+     * For instance, content://com.example.luis.inventoryApp/engagement_ring/ is a valid path for
+     * looking at ring data. content://com.example.luis.inventoryApp/staff/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
     public static final String PATH_RINGS = "engagement_ring";

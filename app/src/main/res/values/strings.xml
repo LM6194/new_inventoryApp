@@ -5,7 +5,7 @@
     <string name="item_editor_activity">Add jewelery item</string>
 
     <!-- ID for the stock id -->
-    <string name="stock_id">Stock id</string>
+    <string name="stock_id">Stock id : </string>
 
     <!-- Hint for the edit view stock id -->
     <string name="item_stock_id">type stock id</string>
@@ -23,31 +23,31 @@
     <string name="action_delete">Delete</string>
 
     <!-- Lable for the supplier-->
-    <string name="supplier">Supplier</string>
+    <string name="supplier">Supplier :</string>
 
     <!-- Hint for the edit view supplier-->
     <string name="supplier_name">type supplier name</string>
 
     <!-- Label for the description -->
-    <string name="description">Details</string>
+    <string name="description">Details :</string>
 
     <!-- hint for the edit view details -->
     <string name="type_details">type Description</string>
 
     <!-- Label for the quantity textView-->
-    <string name="quantity">Quantity</string>
+    <string name="quantity">Quantity :</string>
 
     <!-- hint for quantity -->
     <string name="item_quantity">type Quantity</string>
 
     <!-- Label for cost -->
-    <string name="item_cost">Cost</string>
+    <string name="item_cost">Cost :</string>
 
     <!-- hint for cost -->
     <string name="type_cost">type Cost</string>
 
     <!-- label for price -->
-    <string name="Price">Price</string>
+    <string name="Price">Price :</string>
 
     <!-- hint for price -->
     <string name="type_price">type Price</string>
@@ -100,4 +100,7 @@
     <string name="re_order_button">Order</string>
 
     <string name="sold_button">Sold</string>
+
+    <string name="empty_view_title_text">You have an empty database</string>
+    <string name="empty_view_subtitle_text">Get started by adding a ring</string>
 </resources>

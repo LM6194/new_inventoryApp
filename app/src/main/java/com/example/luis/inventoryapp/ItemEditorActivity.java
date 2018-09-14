@@ -3,6 +3,7 @@ package com.example.luis.inventoryapp;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -21,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -35,7 +37,10 @@ import static java.lang.String.*;
 
 public class ItemEditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
-
+    /**
+     * variable quantity
+     */
+    private int quantityOfItems = 0;
     /**
      * Identifier for the ring data loader
      */
@@ -60,6 +65,21 @@ public class ItemEditorActivity extends AppCompatActivity implements
      * EditText field to enter quantity
      */
     private EditText mQuantityEditText;
+
+    /**
+     * Check if the sale button has been click
+     */
+    private Button mQuantityButton;
+
+    /**
+     * Check if the increase button has been click
+     */
+    private Button mIncreaseButton;
+
+    /**
+     * Check if the decrease button has been click
+     */
+    private Button mDecreaseButton;
 
     /**
      * EditText field to enter cost
@@ -129,7 +149,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
                 int quantityField = Integer.parseInt(quantityNumber);
                 if (quantityField > 0) {
                     quantityField = quantityField - 1;
-                    EditText textElement = findViewById(R.id.edit_quantity);
+                    TextView textElement = findViewById(R.id.show_quantity);
                     Log.i("Luis", "value of quantityField is: " +
                             quantityField);
                     textElement.setText(String.valueOf(quantityField));
@@ -156,14 +176,31 @@ public class ItemEditorActivity extends AppCompatActivity implements
             }
         });
 
+        final Button increase = findViewById(R.id.increase_button);
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                increment();
+
+            }
+        });
+
+        final Button decrease = findViewById(R.id.decrease_button);
+        decrease.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                decrement();
+            }
+        });
+
 
         // Find all relevant views that we will need to read user input from
-        mStockIdEditText = (EditText) findViewById(R.id.edit_stock_id);
-        mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
-        mDetailsEditText = (EditText) findViewById(R.id.edit_details);
-        mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
-        mCostEditText = (EditText) findViewById(R.id.edit_cost);
-        mPriceEditText = (EditText) findViewById(R.id.edit_price);
+        mStockIdEditText =  findViewById(R.id.edit_stock_id);
+        mSupplierNameEditText =  findViewById(R.id.edit_supplier_name);
+        mDetailsEditText =  findViewById(R.id.edit_details);
+        mQuantityEditText = findViewById(R.id.show_quantity);
+        mCostEditText =  findViewById(R.id.edit_cost);
+        mPriceEditText =  findViewById(R.id.edit_price);
 
         //Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us Know of there are unsaved changes
@@ -171,9 +208,41 @@ public class ItemEditorActivity extends AppCompatActivity implements
         mStockIdEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mDetailsEditText.setOnTouchListener(mTouchListener);
-        mQuantityEditText.setOnTouchListener(mTouchListener);
         mCostEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
+        mQuantityEditText.setOnTouchListener(mTouchListener);
+        decrease.setOnTouchListener(mTouchListener);
+        increase.setOnTouchListener(mTouchListener);
+    }
+
+    /**
+     * this method is call when the + button is click
+     */
+    public void increment(){
+        quantityOfItems = quantityOfItems + 1;
+        displayQuantity(quantityOfItems);
+    }
+
+    /**
+     * this method is call when the - button is click
+     */
+    public void decrement(){
+        if(quantityOfItems == 0){
+            // Show an error as a toast
+            Context context = getApplicationContext();
+            CharSequence text = "you cannot have negative number of items";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast.makeText(context, text, duration).show();
+            // Exit this methods early because there's nothing left to do
+            return;
+        }
+        quantityOfItems = quantityOfItems - 1;
+        displayQuantity(quantityOfItems);
+    }
+    private void displayQuantity(int number) {
+        TextView quantityTextView = findViewById(R.id.show_quantity);
+        quantityTextView.setText("" + number);
     }
 
     /**
@@ -195,7 +264,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
         String costNumber = mCostEditText.getText().toString().trim();
         String priceNumber = mPriceEditText.getText().toString().trim();
 
-
         // Check if this is supposed to be a new ring
         // and check if all the fields in the editor are blank
         if (mCurrentRingUri == null &&
@@ -206,7 +274,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
         }
-
         else if (stockNumber.equals("")  || quantityNumber.equals("") ||
                 costNumber.equals("") || priceNumber.equals("")){
 
@@ -226,7 +293,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
             showUnFinishForm(discardButtonClickListener);
         }
 
-
         if(stockNumber.equals("")) {
             //showUnFinishForm();
             OnClickListener discardButtonClickListener =
@@ -244,7 +310,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
         else {
             stock = Integer.parseInt(stockNumber);
         }
-
 
         if (quantityNumber.equals("")){
             //showUnFinishForm();
@@ -300,11 +365,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
             price = Integer.parseInt(priceNumber);
         }
 
-
-
-
-
-
         // Create a ContentValues object where column names are the keys.
         ContentValues values = new ContentValues();
         values.put(InventoryEntry.COLUMN_STOCK_ID, stock);
@@ -313,8 +373,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
         values.put(InventoryEntry.COLUMN_QUANTITY, quantity);
         values.put(InventoryEntry.COLUMN_COST, cost);
         values.put(InventoryEntry.COLUMN_PRICE, price);
-
-
 
         // Determine if this is a new or existing ring by checking if MCurrentRingUri is null or not
         if (mCurrentRingUri == null) {
@@ -333,7 +391,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
         }else {
             // Otherwise this is an EXISTING ring , so update the ring with content URI: mCurrentRingUri
             // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // mCurrentRingUri will already indentify the correct row in the database that
+            // mCurrentRingUri will already identify the correct row in the database that
             //wi want to modify.
             int rowsAffected = getContentResolver().update(mCurrentRingUri, values, null, null);
             // Show a toast message depending on whether or not the update was successful.
@@ -493,7 +551,6 @@ public class ItemEditorActivity extends AppCompatActivity implements
             mQuantityEditText.setText(valueOf(quantity));
             mCostEditText.setText(valueOf(cost));
             mPriceEditText.setText(valueOf(price));
-
         }
     }
 
@@ -506,9 +563,7 @@ public class ItemEditorActivity extends AppCompatActivity implements
         mQuantityEditText.setText("");
         mCostEditText.setText("");
         mPriceEditText.setText("");
-
     }
-
 
     /**
      * Show a dialog that warns the user there are unsaved changes that will be lost

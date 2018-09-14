@@ -4,188 +4,150 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <!-- Stock id textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/stock_id"
             android:text="@string/stock_id"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20"/>
+            style="@style/CategoryStyle"/>
 
         <!-- input fields -->
         <EditText
             android:id="@+id/edit_stock_id"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
             android:hint="@string/item_stock_id"
+            android:layout_toRightOf="@id/stock_id"
             android:inputType="number"
-            android:padding="16dp" />
+            style="@style/EditorFieldStyle"/>
 
+    </RelativeLayout>
 
-    </LinearLayout>
     <!-- supplier textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/supplier"
             android:text="@string/supplier"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20"/>
+            style="@style/CategoryStyle"/>
 
         <!-- input fields -->
         <EditText
             android:id="@+id/edit_supplier_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
             android:hint="@string/supplier_name"
+            android:layout_toRightOf="@id/supplier"
             android:inputType="textCapWords"
-            android:padding="16dp" />
+            style="@style/EditorFieldStyle"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <!-- description textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/details"
             android:text="@string/description"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20" />
+            style="@style/CategoryStyle"/>
 
         <!-- input fields -->
         <EditText
             android:id="@+id/edit_details"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
             android:hint="@string/type_details"
-            android:inputType="textMultiLine"
-            android:padding="16dp" />
+            android:layout_toRightOf="@id/details"
+            android:inputType="textCapWords"
+            style="@style/EditorFieldStyle"/>
 
+    </RelativeLayout>
 
-    </LinearLayout>
     <!-- quantity textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/quantity"
             android:text="@string/quantity"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20"/>
+            style="@style/CategoryStyle"/>
 
-        <!-- input fields -->
+        <!-- button for decrease -->
+        <Button
+            android:id="@+id/decrease_button"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/quantity"
+            android:text="-"/>
+
+        <!-- text view for quantity-->
         <EditText
-            android:id="@+id/edit_quantity"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:hint="@string/item_quantity"
-            android:inputType="number"
-            android:padding="16dp" />
+            android:id="@+id/show_quantity"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_toRightOf="@id/decrease_button" />
 
+        <!-- button for increase -->
+        <Button
+            android:id="@+id/increase_button"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/show_quantity"
+            android:text="+"/>
 
-    </LinearLayout>
+    </RelativeLayout>
+
     <!-- cost textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/cost"
             android:text="@string/item_cost"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20"/>
+            style="@style/CategoryStyle"/>
 
         <!-- input fields -->
         <EditText
             android:id="@+id/edit_cost"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
             android:hint="@string/type_cost"
             android:inputType="number"
-            android:padding="16dp" />
+            android:layout_toRightOf="@id/cost"
+            style="@style/EditorFieldStyle" />
 
+    </RelativeLayout>
 
-    </LinearLayout>
     <!-- price textView -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <!--label-->
         <TextView
             android:id="@+id/price"
             android:text="@string/Price"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#1B5E20"/>
+            style="@style/CategoryStyle"/>
 
         <!-- input fields -->
         <EditText
             android:id="@+id/edit_price"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
             android:hint="@string/type_price"
             android:inputType="number"
-            android:padding="16dp" />
+            android:layout_toRightOf="@id/price"
+            style="@style/EditorFieldStyle" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <!-- buttons buttonView -->
     <LinearLayout
@@ -195,15 +157,17 @@
 
     <Button
         android:id="@+id/sold_button"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sold_button" />
+        android:text="@string/sold_button"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/re_order_button"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

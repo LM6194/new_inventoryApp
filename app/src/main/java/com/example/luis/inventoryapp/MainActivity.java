@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.example.luis.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -46,7 +45,12 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         //Find the ListView which will be populated with the ring data
-        ListView ringListView = (ListView) findViewById(R.id.list);
+        ListView ringListView = findViewById(R.id.list);
+
+        //Find and set empty view on the ListView, so that it only shows when the list has
+        // 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        ringListView.setEmptyView(emptyView);
 
         //Setup an Adapter to create a list item for each row of ring data in the Cursor.
         //There is not ring data yet (until the loader finished) so pass in null for the Cursor.
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements
         ringListView.setAdapter(mCursorAdapter);
 
         //Setup item click listener.
-        ringListView.setOnItemClickListener(new OnItemClickListener() {
+        ringListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Create new intent to go to {@link EditorActivity}
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         // Create a ContentValues object, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(InventoryEntry.COLUMN_STOCK_ID, 9780);
-        values.put(InventoryEntry.COLUMN_SUPPLIER, "Pandora");
+        values.put(InventoryEntry.COLUMN_SUPPLIER, "Dummy");
         values.put(InventoryEntry.COLUMN_DETAILS, "1.5 ct. round diamond solitary ring");
         values.put(InventoryEntry.COLUMN_QUANTITY, 2);
         values.put(InventoryEntry.COLUMN_COST, 4500);
@@ -123,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                showDeleteConfirmationDialog();
+                //showDeleteConfirmationDialog();
+                deleteAllRings();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -136,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements
         String[] projection = {
                 InventoryEntry._ID,
                 InventoryEntry.COLUMN_SUPPLIER,
-                InventoryEntry.COLUMN_DETAILS,
-        };
+                InventoryEntry.COLUMN_QUANTITY};
+
         //This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this, //Parent activity context
                 InventoryEntry.CONTENT_URI,  //Provider content URI to query

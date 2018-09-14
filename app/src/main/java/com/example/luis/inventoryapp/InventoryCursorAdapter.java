@@ -60,19 +60,16 @@ public class InventoryCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // find fields to populate in inflate template
         TextView textViewSupplier = (TextView)view.findViewById(R.id.tvSupplier);
-        TextView textViewDetails = (TextView)view.findViewById(R.id.tvDetails);
 
         //Find the columns of rings attributes that we're  interested in
         int supplierColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_SUPPLIER);
-        int detailsColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_DETAILS);
 
         //Read the pet attributes from the cursor for the current pet
         String ringSupplier = cursor.getString(supplierColumnIndex);
-        String ringDetails = cursor.getString(detailsColumnIndex);
+
 
         //Populate fields with extracted properties
         textViewSupplier.setText(ringSupplier);
-        textViewDetails.setText(ringDetails);
 
     }
 }
